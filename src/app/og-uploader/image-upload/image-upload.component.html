@@ -1,0 +1,10 @@
+  <div class="file-upload hr-inline-group">
+    <label class="upload-button">
+      <span>{{buttonMessage}}</span>
+      <input
+        type="file"
+        accept="image/*"
+        multiple (change)="fileChange(input.files)"
+        #input>
+    </label>
+</div>
