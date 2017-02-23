@@ -1,68 +1,69 @@
-<button (click)="modal()" class="btn-primary btn-lg">click to upload</button>
-  <div class="modal fade" tabindex="-1" [ngClass]="{'in': visibleAnimate}"
+<button (click)="modal()" class={{styling}}>click to upload</button>
+	<div class="modal fade" tabindex="-1" [ngClass]="{'in': visibleAnimate}"
        [ngStyle]="{'display': visible ? 'block' : 'none', 'opacity': visibleAnimate ? 1 : 0}">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-         <div class="app-modal-header">
-           <h3>Uploader</h3>
-    </div>
-        </div>
-        <div class="modal-body ">
-           <div class="app-modal-body ">
-           
-           <div class="image-upload"
-     fileDrop
-     [accept]=acceptTypes
-     (isFileOver)="fileOver($event)"
-     (fileDrop)="fileChange($event)"
-     [ngClass]="{'file-is-over': isFileOver}"
->
-  <div class="file-upload hr-inline-group">
-    <label class="upload-button">
-      <span>{{buttonCaption}}</span>
-      <input
-        type="file"
-        accept={{acceptTypes}}
-        multiple (change)="fileChange(input.files)"
-        #input>
-    </label>
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div class="app-modal-header">
+           				<h3>Uploader</h3>
+          			</div>
+				</div>
+				<div class="modal-body ">
+           			<div class="app-modal-body ">
+						<div class="image-upload"
+							fileDrop
+							[accept]=acceptTypes
+							(isFileOver)="fileOver($event)"
+							(fileDrop)="fileChange($event)"
+							[ngClass]="{'file-is-over': isFileOver}"
+						>
+  							<div class="file-upload hr-inline-group">
+								<label class="upload-button">
+      								<span>{{buttonCaption}}</span>
+									<input
+										type="file"
+										accept={{acceptTypes}}
+										multiple (change)="fileChange(input.files)"
+										#input>
+    							</label>
+								<div class="drag-box-message">{{dropBoxMessage}}</div>
+							</div>
 
-    <div class="drag-box-message">{{dropBoxMessage}}</div>
-  </div>
-
-  <div *ngIf="preview" class="image-container hr-inline-group">
-    <div
-      class="image"
-      *ngFor="let file of files"
-      [ngStyle]="{'background-image': 'url('+ file.src +')'}"
-    >
-      <div *ngIf="file.pending" class="loading-overlay">
-        <div class="spinningCircle"></div>
-      </div>
-      <div *ngIf="!file.pending" class="x-mark" (click)="deleteFile(file)">
-        <span class="close"></span>
-      </div>
-    </div>
-  </div>
-</div><br>
-<div class="image-upload" style="height:60px;  background-color: lightgray;">
-<div class="row" style="margin-top:2%">
-<div class="col-sm-3" style="text-align:center;">
-<label style="font-size:20px;">give a link</label></div><div class="col-sm-6"><span>
-<input type="url" class="form-control" #url></span></div>
-<div class="col-sm-3"><input type="button" value="upload" class="btn-danger form-control" (click)="send(url.value)"></div>
-</div>
-</div>
-                          
-    </div>
-        </div>
-        <div class="modal-footer">
-          <div class="app-modal-footer">
-      <button type="button" class="btn btn-default" (click)="hide()">Close</button>
-      
-    </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  							<div *ngIf="preview" class="image-container hr-inline-group">
+								<div
+								class="image"
+								*ngFor="let file of files"
+								[ngStyle]="{'background-image': 'url('+ file.src +')'}"
+								>
+      								<div *ngIf="file.pending" class="loading-overlay">
+        								<div class="spinningCircle"></div>
+      								</div>
+      								<div *ngIf="!file.pending" class="x-mark" (click)="deleteFile(file)">
+        								<span class="close"></span>
+									</div>
+								</div>
+							</div>
+						</div><br>
+						<div class="image-upload" style="height:60px;  background-color: lightgray;">
+							<div class="row" style="margin-top:2%">
+								<div class="col-sm-3" style="text-align:center;">
+									<label style="font-size:20px;">give a link</label>
+								</div>
+								<div class="col-sm-6">
+									<span><input type="url" class="form-control" #url></span>
+								</div>
+								<div class="col-sm-3">
+									<input type="button" value="upload" class="btn-danger form-control" (click)="send(url.value)">
+								</div>
+							</div>
+						</div>
+                    </div>
+        		</div>
+        		<div class="modal-footer">
+          			<div class="app-modal-footer">
+      					<button type="button" class="btn btn-default" (click)="hide()">Close</button>
+					</div>
+        		</div>
+      		</div>
+    	</div>
+	</div>

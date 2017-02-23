@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import {Component, Input, Output, EventEmitter, ViewChild} from '@angular/core';
 import {ImageService, Header} from "../image.service";
 
 class FileHolder {
@@ -15,11 +15,13 @@ class FileHolder {
 export class ImageUploadComponent {
   public visible:boolean=false;
 private visibleAnimate = false;
-  @Input() max: number = 100;
+  @Input() max: number = 1;
   @Input() url: string;
   @Input() headers: Header[];
   @Input() preview: boolean = true;
   @Input() acceptTypes : string[];
+  @Input() styling: string='btn btn-primary';
+  @ViewChild('input') input;
   @Output()
   private isPending: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output()
@@ -42,6 +44,9 @@ private visibleAnimate = false;
   constructor(private imageService: ImageService) { }
 
   ngOnInit() {
+    if(this.max==1){
+      this.input.nativeElement.multiple = false;
+    }
     this.imageService.setUrl(this.url);
   }
 
@@ -106,7 +111,6 @@ private visibleAnimate = false;
     let index = this.files.indexOf(file);
     this.files.splice(index, 1);
     this.fileCounter--;
-
     this.onRemove.emit(file);
   }
 
@@ -132,12 +136,16 @@ public show(): void {
         setTimeout(() => this.visibleAnimate = true);
     }
 
-  public hide(): void {
-      this.visibleAnimate = false;
-      setTimeout(() => this.visible = false, 300);
-  }
-  send(val:string)
-  {
-    this.hide();
-  }
+    public hide(): void {
+        this.visibleAnimate = false;
+        setTimeout(() => this.visible = false, 300);
+    }
+    send(val:string)
+{
+
+    this.imageService.linkupload(val).subscribe(res=>
+    {
+       this.onFileUploadFinish.emit(res.data);
+      });
+}
 }

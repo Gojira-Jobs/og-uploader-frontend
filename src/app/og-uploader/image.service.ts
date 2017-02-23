@@ -32,6 +32,17 @@ export class ImageService {
     });
    
   }
+  linkupload(url:string):Observable<any>
+  {
+    let link={'link':url};
+    console.log("lonk");
+    return this.http.post(this.url,link)
+    .map((res: Response)=>{
+        console.log(res.json());
+        return res.json();
+    });
+
+  }
 
   private checkUrl() {
     if (!this.url) {

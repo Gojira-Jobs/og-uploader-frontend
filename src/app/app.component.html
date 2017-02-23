@@ -5,12 +5,12 @@
 <og-uploader  [max]="100"
               [url]="'http://524ae7ef.ngrok.io'"
               [acceptTypes]="['image/*','text/*']"
+              [styling]="'btn-danger btn-lg'"
               [headers]="[{header: 'Authorization', value: 'MyToken'}]"
               [buttonCaption]="'Select Image!'"
               [dropBoxMessage]="'Drop your images here!'"
               (onFileUploadFinish)="imageUploaded($event)"
               (onRemove)="imageRemoved($event)"   
-              style="margin-left: 10%"
 ></og-uploader>
 
 

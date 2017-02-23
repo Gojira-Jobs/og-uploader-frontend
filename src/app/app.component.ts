@@ -8,8 +8,7 @@ import {HelloWorldComponent} from './directive/hello-world/hello-world.component
 })
 export class AppComponent {
   val:boolean=false;
-  @ViewChild('image')
-image;
+  @ViewChild('image') image;
   title = 'app works!';
   fileChange(files)
   {
