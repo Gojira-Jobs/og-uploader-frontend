@@ -17,6 +17,10 @@ export class AppComponent {
   }
   imageUploaded(response:any){
     console.log(response);
-    this.image.nativeElement.src="http://524ae7ef.ngrok.io/"+response.fileName;
+    this.image.nativeElement.src="http://dddcfcd9.ngrok.io/"+response.fileName;
+  }
+
+  imageRemoved(response: any){
+    console.log(response);
   }
 }

@@ -14,7 +14,7 @@ class FileHolder {
 })
 export class ImageUploadComponent {
   public visible:boolean=false;
-private visibleAnimate = false;
+  private visibleAnimate = false;
   @Input() max: number = 1;
   @Input() url: string;
   @Input() headers: Header[];
@@ -126,26 +126,28 @@ private visibleAnimate = false;
   get value(): any[] {
     return this.files;
   }
-modal()
-{
-  this.show();
-}
-public show(): void {
-        
+
+  modal()
+  {
+    this.show();
+  }
+  public show(): void {
         this.visible = true;
         setTimeout(() => this.visibleAnimate = true);
-    }
+  }
 
-    public hide(): void {
-        this.visibleAnimate = false;
-        setTimeout(() => this.visible = false, 300);
-    }
-    send(val:string)
-{
-
+  public hide(): void {
+    this.visibleAnimate = false;
+    setTimeout(() => this.visible = false, 300);
+    this.files=[];
+    this.fileCounter=0;
+    this.pendingFilesCounter=0;
+  }
+  
+  send(val:string){
     this.imageService.linkupload(val).subscribe(res=>
     {
        this.onFileUploadFinish.emit(res.data);
-      });
-}
+    });
+  }
 }
