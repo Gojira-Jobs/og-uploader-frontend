@@ -1,6 +1,7 @@
 import {Injectable} from "@angular/core";
-import {Observable} from "rxjs/Observable";
-
+import {Observable} from "rxjs/Rx";
+import {Http, Response} from "@angular/http";
+import 'rxjs/Rx';
 export interface Header {
   header: string;
   value: string;
@@ -13,37 +14,23 @@ export class ImageService {
   public setUrl(url: string) {
     this.url = url;
   }
+  constructor(private http:Http)
+  {
 
-  public postImage(image: File, headers?: Header[]) {
+  }
+
+   postImage(image: File, headers?: Header[]): Observable<any> {
     this.checkUrl();
+    let formData: FormData = new FormData();
+    formData.append('image',image);
     console.log("file from service");
     console.log(image);
-    return Observable.create(observer => {
-      let formData: FormData = new FormData();
-      let xhr: XMLHttpRequest = new XMLHttpRequest();
-
-      formData.append('image', image);
-
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4) {
-          if (xhr.status === 200) {
-            observer.next(xhr.response);
-            observer.complete();
-          } else {
-            observer.error(xhr.response);
-          }
-        }
-      };
-
-
-      xhr.open('POST', this.url, true);
-
-      if (headers)
-        for (let header of headers)
-          xhr.setRequestHeader(header.header, header.value);
-
-      xhr.send(formData);
+    return this.http.post(this.url,formData,headers)
+    .map((res: Response)=>{
+        console.log(res.json());
+        return res.json();
     });
+   
   }
 
   private checkUrl() {

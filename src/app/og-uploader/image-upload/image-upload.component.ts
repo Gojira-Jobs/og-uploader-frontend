@@ -90,7 +90,7 @@ private visibleAnimate = false;
 
       this.imageService.postImage(fileHolder.file, this.headers).subscribe(response => {
         fileHolder.serverResponse = response;
-        this.onFileUploadFinish.emit(fileHolder);
+        this.onFileUploadFinish.emit(response.data);
         fileHolder.pending = false;
         if (--this.pendingFilesCounter == 0) {
           this.isPending.emit(false);

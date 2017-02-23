@@ -1,9 +1,9 @@
 <h1 [myHighlight]="title">
   {{title}}
 </h1>
-<img src="" style="height: 200px;width: 200px; border-radius: 2%;border:1 px; margin-left: 10%;">
+<img src="" style="height: 200px;width: 200px; border-radius: 2%;border:1 px; margin-left: 10%;" #image>
 <og-uploader  [max]="100"
-              [url]="'http://localhost:8000/fileupload'"
+              [url]="'http://524ae7ef.ngrok.io'"
               [acceptTypes]="['image/*','text/*']"
               [headers]="[{header: 'Authorization', value: 'MyToken'}]"
               [buttonCaption]="'Select Image!'"
