@@ -14,4 +14,7 @@ export class AppComponent {
     console.log(files);
 
   }
+  imageUploaded(response:any){
+    console.log(response);
+  }
 }
