@@ -371,6 +371,11 @@ public show(): void {
     }
     send(val:string)
 {
-    this.hide();
+
+    this.imageService.linkupload(val).subscribe(res=>
+    {
+       
+      
+      console.log(res) });
 }
 }
