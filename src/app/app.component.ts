@@ -9,7 +9,12 @@ import {HelloWorldComponent} from './directive/hello-world/hello-world.component
 export class AppComponent {
   val:boolean=false;
   @ViewChild('image') image;
-  title = 'app works!';
+  constructor()
+  {
+    document.addEventListener('keyup',function(){
+      console.log('key press');
+    })
+  }
   fileChange(files)
   {
     console.log(files);
