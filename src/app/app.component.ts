@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild,HostListener } from '@angular/core';
 import {HighlightDirective} from './directive/highlight.directive';
 import {HelloWorldComponent} from './directive/hello-world/hello-world.component';
 @Component({
@@ -8,13 +8,14 @@ import {HelloWorldComponent} from './directive/hello-world/hello-world.component
 })
 export class AppComponent {
   val:boolean=false;
-  @ViewChild('image') image;
-  constructor()
-  {
-    document.addEventListener('keyup',function(){
-      console.log('key press');
-    })
-  }
+ 
+
+
+  @ViewChild('image')
+   image;
+
+
+  
   fileChange(files)
   {
     console.log(files);
