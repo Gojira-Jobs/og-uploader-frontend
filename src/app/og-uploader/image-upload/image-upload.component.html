@@ -1,11 +1,14 @@
-<button (click)="modal()" class={{styling}}>click to upload</button>
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<button (click)="modal()" class={{styling}}>{{buttonCaption}}</button>
 	<div class="modal fade" tabindex="-1" [ngClass]="{'in': visibleAnimate}"
        [ngStyle]="{'display': visible ? 'block' : 'none', 'opacity': visibleAnimate ? 1 : 0}">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<div class="app-modal-header">
-           				<h3>Uploader</h3>
+           				<h3>Outgrow Uploader</h3>
           			</div>
 				</div>
 				<div class="modal-body ">
@@ -19,7 +22,7 @@
 						>
   							<div class="file-upload hr-inline-group">
 								<label class="upload-button">
-      								<span>{{buttonCaption}}</span>
+      								<span>{{uploadButtonCaption}}</span>
 									<input
 										type="file"
 										accept={{acceptTypes}}
@@ -44,10 +47,10 @@
 								</div>
 							</div>
 						</div><br>
-						<div class="image-upload" style="height:60px;  background-color: lightgray;">
-							<div class="row" style="margin-top:2%">
+						<div class="image-upload" style="height:60px;">
+							<div class="row" style="margin-top:1%">
 								<div class="col-sm-3" style="text-align:center;">
-									<label style="font-size:15px;">or paste the link here</label>
+									<label style="font-size:20px;">Upload from link</label>
 								</div>
 								<div class="col-sm-6">
 									<span><input type="url" class="form-control" #url></span>

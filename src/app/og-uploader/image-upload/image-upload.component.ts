@@ -1,6 +1,6 @@
 import {Component, Input, Output, EventEmitter, ViewChild} from '@angular/core';
 import {ImageService, Header} from "../image.service";
-
+declare var $;
 class FileHolder {
   public serverResponse: any;
   public pending: boolean = false;
@@ -41,6 +41,9 @@ export class ImageUploadComponent {
   @Input()
   private buttonCaption: string = "Select Images";
   @Input()
+  private uploadButtonCaption: string = "Select Images";
+
+  @Input()
   private dropBoxMessage: string = "Drop your images here!";
 
   constructor(private imageService: ImageService) { }
@@ -72,8 +75,8 @@ export class ImageUploadComponent {
       let file = files[i];
 
 
-      let img = document.createElement('img');
-      img.src = window.URL.createObjectURL(file);
+     // let img = document.createElement('img');
+     // img.src = window.URL.createObjectURL(file);
 
       let reader = new FileReader();
       reader.addEventListener('load', (event: any) => {
@@ -137,6 +140,7 @@ export class ImageUploadComponent {
   modal()
   {
     this.show();
+   
   }
   public show(): void {
         this.visible = true;

@@ -1,6 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
-import {HighlightDirective} from './directive/highlight.directive';
-import {HelloWorldComponent} from './directive/hello-world/hello-world.component';
+import { Component, ViewChild,HostListener } from '@angular/core';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -8,8 +6,14 @@ import {HelloWorldComponent} from './directive/hello-world/hello-world.component
 })
 export class AppComponent {
   val:boolean=false;
-  @ViewChild('image') image;
-  title = 'app works!';
+ 
+
+
+  @ViewChild('image')
+   image;
+
+
+  
   fileChange(files)
   {
     console.log(files);
@@ -17,7 +21,6 @@ export class AppComponent {
   }
   imageUploaded(response:any){
     console.log(response);
-    //this.image.nativeElement.src="http://dddcfcd9.ngrok.io/"+response.fileName;
   }
 
   imageRemoved(response: any){
