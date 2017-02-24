@@ -3,9 +3,9 @@
 </h1>
 <img src="" style="height: 200px;width: 200px; border-radius: 2%;border:1 px; margin-left: 10%;" #image>
 <og-uploader  [max]="2"
-              [url]="'http://dddcfcd9.ngrok.io'"
               [acceptTypes]="['image/*','text/*','application/*']"
               [styling]="'btn-danger btn-lg'"
+              [quality]="60"
               [headers]="[{header: 'Authorization', value: 'MyToken'}]"
               [buttonCaption]="'Select Image!'"
               [dropBoxMessage]="'Drop your images here!'"

@@ -16,11 +16,12 @@ export class ImageUploadComponent {
   public visible:boolean=false;
   private visibleAnimate = false;
   @Input() max: number = 1;
-  @Input() url: string;
+  url: string="http://6f5fa780.ngrok.io";
   @Input() headers: Header[];
   @Input() preview: boolean = true;
   @Input() acceptTypes : string[];
   @Input() styling: string='btn btn-primary';
+  @Input() quality: string='65';
   @ViewChild('input') input;
   @Output()
   private isPending: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -28,7 +29,8 @@ export class ImageUploadComponent {
   private onFileUploadFinish: EventEmitter<FileHolder> = new EventEmitter<FileHolder>();
   @Output()
   private onRemove: EventEmitter<FileHolder> = new EventEmitter<FileHolder>();
-
+  private errMsg: string;
+  private errMsgShow: boolean;
   private files: FileHolder[] = [];
 
   private fileCounter: number = 0;
@@ -48,9 +50,11 @@ export class ImageUploadComponent {
       this.input.nativeElement.multiple = false;
     }
     this.imageService.setUrl(this.url);
+    this.imageService.setQuality(this.quality);
   }
 
   fileChange(files) {
+    this.errMsgShow=false;
     let remainingSlots = this.countRemainingSlots();
     let filesToUploadNum = files.length > remainingSlots ? remainingSlots : files.length;
 
@@ -95,12 +99,15 @@ export class ImageUploadComponent {
 
       this.imageService.postImage(fileHolder.file, this.headers).subscribe(response => {
         fileHolder.serverResponse = response;
-        this.onFileUploadFinish.emit(response.data);
+        this.onFileUploadFinish.emit(response.InkBlob);
         fileHolder.pending = false;
         if (--this.pendingFilesCounter == 0) {
           this.isPending.emit(false);
         }
-      });
+      },err=>{
+      this.errMsg=err.err;
+      this.errMsgShow=true;
+    });
 
     } else {
       this.onFileUploadFinish.emit(fileHolder);
@@ -145,9 +152,13 @@ export class ImageUploadComponent {
   }
   
   send(val:string){
-    this.imageService.linkupload(val).subscribe(res=>
+    this.errMsgShow=false;
+    this.imageService.linkupload(val,this.headers).subscribe(res=>
     {
-       this.onFileUploadFinish.emit(res.data);
+       this.onFileUploadFinish.emit(res.InkBlob);
+    },err=>{
+      this.errMsg=err.err;
+      this.errMsgShow=true;
     });
   }
 }
