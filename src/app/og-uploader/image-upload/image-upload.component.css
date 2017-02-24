@@ -1,3 +1,19 @@
+.modal-dialog {
+  padding-top:8%;
+  width: 60% !important;
+}
+
+.modal-content {
+  height: 100% !important;
+  overflow:visible;
+}
+
+.modal-body {
+  height: 100%;
+  overflow: auto;
+  background-color: lightslategray;
+}
+
 .image-upload {
   --active-color: #30bf5a;
   position: relative;
@@ -22,7 +38,6 @@
 }
 
 .drag-box-message {
-  float: left;
   display: inline-block;
   margin-left: 10px;
   padding-top: 8px;
@@ -46,7 +61,6 @@ label.upload-button input[type=file]{
   font-weight: 600;
   text-transform: uppercase;
   display: inline-block;
-  float: left;
 }
 
 
@@ -56,7 +70,7 @@ label.upload-button input[type=file]{
 }
 
 .image {
-  float: left;
+  
   display: inline-block;
   margin: 5px;
   width: 86px;

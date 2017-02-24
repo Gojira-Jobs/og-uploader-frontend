@@ -1,6 +1,6 @@
 import {Component, Input, Output, EventEmitter, ViewChild} from '@angular/core';
 import {ImageService, Header} from "../image.service";
-
+declare var $;
 class FileHolder {
   public serverResponse: any;
   public pending: boolean = false;
@@ -130,6 +130,7 @@ export class ImageUploadComponent {
   modal()
   {
     this.show();
+   
   }
   public show(): void {
         this.visible = true;
