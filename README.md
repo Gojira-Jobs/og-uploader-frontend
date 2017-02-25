@@ -4,8 +4,7 @@ Simple File Upload for Angular2.
 Please star a project if you liked it, or create an issue if you have problems with it.
 
 ## Installation
-
-1. Install npm module:
+ Install npm module:
     
     `npm install og-builder --save`
 

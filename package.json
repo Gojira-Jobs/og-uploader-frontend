@@ -1,12 +1,17 @@
 {
   "name": "og-uploader",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "File Uploader for Outgrow",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Gojira-Jobs/og-uploader-frontend.git"
+  },
   "scripts": {
     "lint": "tslint ./src/**/*.ts -t verbose",
     "prepublish": "ngc"
   },
-  "tags": [
+  "readmeFilename": "README.md",
+  "keywords": [
     "file",
     "upload",
     "angular2",
@@ -15,7 +20,7 @@
   ],
   "typings": "./index.ts",
   "main": "index.js",
-  "author": "Rahul Kumar",
+  "author": "Rahul Kumar <rahulkumar2048@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "@angular/common": "~2.4.0",
