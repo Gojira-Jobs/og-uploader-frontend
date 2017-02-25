@@ -9,7 +9,7 @@ Thumbs.db
 *.map
 *.d.ts
 *.idea
-*.editorconfig
+.editorconfig
 typings/**
 node_modules
 **/*npm-debug.log.*
