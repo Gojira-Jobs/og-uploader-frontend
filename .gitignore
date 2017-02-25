@@ -8,7 +8,7 @@ Thumbs.db
 *.js
 *.map
 *.d.ts
-*.idea
+.idea
 .editorconfig
 typings/**
 node_modules
