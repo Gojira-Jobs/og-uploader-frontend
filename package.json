@@ -1,6 +1,6 @@
 {
   "name": "og-uploader",
-  "version": "0.2.2",
+  "version": "0.2.4",
   "description": "File Uploader for Outgrow",
   "scripts": {
     "lint": "tslint ./src/**/*.ts -t verbose",
