@@ -10,8 +10,5 @@ Thumbs.db
 .vscode
 .idea
 
-# Ignored files
-src
-
 # Angular AOT
 *.ngFactory.ts

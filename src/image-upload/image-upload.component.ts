@@ -1,22 +1,20 @@
 import {Component, Input, Output, EventEmitter, ViewChild} from '@angular/core';
 import {ImageService, Header} from "../image.service";
 declare var $;
+class FileHolder {
+  public serverResponse: any;
+  public pending: boolean = false;
 
-
-export class FileHolder {
-    public serverResponse: any;
-    public pending: boolean = false;
-
-    constructor(private src: string, public file: File) {
-    }
+  constructor(private src: string, public file: File) {
+  }
 }
 
 @Component({
-    selector: 'og-uploader',
-    template: `<head>
+  selector: 'og-uploader',
+  template: `<head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
-<button (click)="modal()" class={{styling}}>click to upload</button>
+<button (click)="modal()" class={{styling}}>{{buttonCaption}}</button>
 	<div class="modal fade" tabindex="-1" [ngClass]="{'in': visibleAnimate}"
        [ngStyle]="{'display': visible ? 'block' : 'none', 'opacity': visibleAnimate ? 1 : 0}">
 		<div class="modal-dialog">
@@ -37,7 +35,7 @@ export class FileHolder {
 						>
   							<div class="file-upload hr-inline-group">
 								<label class="upload-button">
-      								<span>{{buttonCaption}}</span>
+      								<span>{{uploadButtonCaption}}</span>
 									<input
 										type="file"
 										accept={{acceptTypes}}
@@ -75,6 +73,7 @@ export class FileHolder {
 								</div>
 							</div>
 						</div>
+						<div style="text-align: center justify; font-size: 18px; color: red " *ngIf=errMsgShow>{{errMsg}}<div>
                     </div>
         		</div>
         		<div class="modal-footer">
@@ -85,7 +84,7 @@ export class FileHolder {
       		</div>
     	</div>
 	</div>`,
-    styles: [`.modal-dialog {
+  styles: [`.modal-dialog {
   padding-top:8%;
   width: 60% !important;
 }
@@ -254,142 +253,156 @@ label.upload-button input[type=file]{
 `]
 })
 export class ImageUploadComponent {
-    public visible: boolean = false;
-    visibleAnimate = false;
-    @Input() max: number = 1;
-    @Input() url: string;
-    @Input() headers: Header[];
-    @Input() preview: boolean = true;
-    @Input() acceptTypes: string[];
-    @Input() styling: string = 'btn btn-primary';
-    @ViewChild('input') input;
-    @Output()
-    isPending: EventEmitter<boolean> = new EventEmitter<boolean>();
-    @Output()
-    onFileUploadFinish: EventEmitter<FileHolder> = new EventEmitter<FileHolder>();
-    @Output()
-    onRemove: EventEmitter<FileHolder> = new EventEmitter<FileHolder>();
+  public visible: boolean = false;
+  private visibleAnimate = false;
+  @Input() max: number = 1;
+  url: string = "http://bc0deff6.ngrok.io";
+  @Input() headers: Header[];
+  @Input() preview: boolean = true;
+  @Input() acceptTypes: string[];
+  @Input() styling: string = 'btn btn-primary';
+  @Input() quality: string = '65';
+  @ViewChild('input') input;
+  @Output()
+  private isPending: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output()
+  private onFileUploadFinish: EventEmitter<FileHolder> = new EventEmitter<FileHolder>();
+  @Output()
+  private onRemove: EventEmitter<FileHolder> = new EventEmitter<FileHolder>();
+  private errMsg: string;
+  private errMsgShow: boolean;
+  private files: FileHolder[] = [];
 
-    private files: FileHolder[] = [];
+  private fileCounter: number = 0;
+  private pendingFilesCounter: number = 0;
 
-    private fileCounter: number = 0;
-    private pendingFilesCounter: number = 0;
+  private isFileOver: boolean = false;
 
-    isFileOver: boolean = false;
+  @Input()
+  private buttonCaption: string = "Select Images";
+  @Input()
+  private uploadButtonCaption: string = "Select Images";
 
-    @Input()
-    buttonCaption: string = "Select Images";
-    @Input()
-    dropBoxMessage: string = "Drop your images here!";
+  @Input()
+  private dropBoxMessage: string = "Drop your images here!";
 
-    constructor(private imageService: ImageService) {
+  constructor(private imageService: ImageService) {
+  }
+
+  ngOnInit() {
+    if (this.max == 1) {
+      this.input.nativeElement.multiple = false;
+    }
+    this.imageService.setUrl(this.url);
+    this.imageService.setQuality(this.quality);
+  }
+
+  fileChange(files) {
+    this.errMsgShow = false;
+    let remainingSlots = this.countRemainingSlots();
+    let filesToUploadNum = files.length > remainingSlots ? remainingSlots : files.length;
+
+    if (this.url && filesToUploadNum != 0) {
+      this.isPending.emit(true);
     }
 
-    ngOnInit() {
-        if (this.max == 1) {
-            this.input.nativeElement.multiple = false;
+    this.fileCounter += filesToUploadNum;
+
+    this.uploadFiles(files, filesToUploadNum);
+  }
+
+  private uploadFiles(files, filesToUploadNum) {
+    for (let i = 0; i < filesToUploadNum; i++) {
+      let file = files[i];
+
+
+      // let img = document.createElement('img');
+      // img.src = window.URL.createObjectURL(file);
+
+      let reader = new FileReader();
+      reader.addEventListener('load', (event: any) => {
+        let fileHolder: FileHolder = new FileHolder(event.target.result, file);
+
+        fileHolder.serverResponse = `good boy: ${i}`;
+
+        this.uploadSingleFile(fileHolder);
+
+        this.files.push(fileHolder);
+
+      }, false);
+
+
+      reader.readAsDataURL(file);
+    }
+  }
+
+  private uploadSingleFile(fileHolder: FileHolder) {
+    if (this.url) {
+      this.pendingFilesCounter++;
+      fileHolder.pending = true;
+
+      this.imageService.postImage(fileHolder.file, this.headers).subscribe(response => {
+        fileHolder.serverResponse = response;
+        this.onFileUploadFinish.emit(response.InkBlob);
+        fileHolder.pending = false;
+        if (--this.pendingFilesCounter == 0) {
+          this.isPending.emit(false);
         }
-        this.imageService.setUrl(this.url);
+      }, err => {
+        this.errMsg = err.err;
+        this.errMsgShow = true;
+      });
+
+    } else {
+      this.onFileUploadFinish.emit(fileHolder);
     }
+  }
 
-    fileChange(files) {
-        let remainingSlots = this.countRemainingSlots();
-        let filesToUploadNum = files.length > remainingSlots ? remainingSlots : files.length;
+  private deleteFile(file: FileHolder): void {
+    let index = this.files.indexOf(file);
+    this.files.splice(index, 1);
+    this.fileCounter--;
+    this.onRemove.emit(file);
+  }
 
-        if (this.url && filesToUploadNum != 0) {
-            this.isPending.emit(true);
-        }
+  fileOver(isOver) {
+    this.isFileOver = isOver;
+  }
 
-        this.fileCounter += filesToUploadNum;
-
-        this.uploadFiles(files, filesToUploadNum);
-    }
-
-    uploadFiles(files, filesToUploadNum) {
-        for (let i = 0; i < filesToUploadNum; i++) {
-            let file = files[i];
-
-
-            let img = document.createElement('img');
-            img.src = window.URL.createObjectURL(file);
-
-            let reader = new FileReader();
-            reader.addEventListener('load', (event: any) => {
-                let fileHolder: FileHolder = new FileHolder(event.target.result, file);
-
-                fileHolder.serverResponse = `good boy: ${i}`;
-
-                this.uploadSingleFile(fileHolder);
-
-                this.files.push(fileHolder);
-
-            }, false);
+  private countRemainingSlots() {
+    return this.max - this.fileCounter;
+  }
 
 
-            reader.readAsDataURL(file);
-        }
-    }
+  get value(): any[] {
+    return this.files;
+  }
 
-    uploadSingleFile(fileHolder: FileHolder) {
-        if (this.url) {
-            this.pendingFilesCounter++;
-            fileHolder.pending = true;
+  modal() {
+    this.show();
 
-            this.imageService.postImage(fileHolder.file, this.headers).subscribe(response => {
-                fileHolder.serverResponse = response;
-                this.onFileUploadFinish.emit(response.data);
-                fileHolder.pending = false;
-                if (--this.pendingFilesCounter == 0) {
-                    this.isPending.emit(false);
-                }
-            });
+  }
 
-        } else {
-            this.onFileUploadFinish.emit(fileHolder);
-        }
-    }
+  public show(): void {
+    this.visible = true;
+    setTimeout(() => this.visibleAnimate = true);
+  }
 
-    private deleteFile(file: FileHolder): void {
-        let index = this.files.indexOf(file);
-        this.files.splice(index, 1);
-        this.fileCounter--;
-        this.onRemove.emit(file);
-    }
+  public hide(): void {
+    this.visibleAnimate = false;
+    setTimeout(() => this.visible = false, 300);
+    this.files = [];
+    this.fileCounter = 0;
+    this.pendingFilesCounter = 0;
+  }
 
-    fileOver(isOver) {
-        this.isFileOver = isOver;
-    }
-
-    private countRemainingSlots() {
-        return this.max - this.fileCounter;
-    }
-
-
-    get value(): any[] {
-        return this.files;
-    }
-
-    modal() {
-        this.show();
-
-    }
-
-    public show(): void {
-        this.visible = true;
-        setTimeout(() => this.visibleAnimate = true);
-    }
-
-    public hide(): void {
-        this.visibleAnimate = false;
-        setTimeout(() => this.visible = false, 300);
-        this.files = [];
-        this.fileCounter = 0;
-        this.pendingFilesCounter = 0;
-    }
-
-    send(val: string) {
-        this.imageService.linkupload(val).subscribe(res => {
-            this.onFileUploadFinish.emit(res.data);
-        });
-    }
+  send(val: string) {
+    this.errMsgShow = false;
+    this.imageService.linkupload(val, this.headers).subscribe(res => {
+      this.onFileUploadFinish.emit(res.InkBlob);
+    }, err => {
+      this.errMsg = err.err;
+      this.errMsgShow = true;
+    });
+  }
 }

@@ -43,6 +43,7 @@ export class Wrapper_ImageUploadComponent {
   /*private*/ _expr_5:any;
   /*private*/ _expr_6:any;
   /*private*/ _expr_7:any;
+  /*private*/ _expr_8:any;
   subscription0:any;
   subscription1:any;
   subscription2:any;
@@ -57,6 +58,7 @@ export class Wrapper_ImageUploadComponent {
     this._expr_5 = import1.UNINITIALIZED;
     this._expr_6 = import1.UNINITIALIZED;
     this._expr_7 = import1.UNINITIALIZED;
+    this._expr_8 = import1.UNINITIALIZED;
   }
   ngOnDetach(view:import2.AppView<any>,componentView:import2.AppView<any>,el:any):void {
   }
@@ -72,38 +74,38 @@ export class Wrapper_ImageUploadComponent {
       this._expr_0 = currValue;
     }
   }
-  check_url(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+  check_headers(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
     if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_1,currValue))) {
       this._changed = true;
-      this.context.url = currValue;
+      this.context.headers = currValue;
       this._expr_1 = currValue;
     }
   }
-  check_headers(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+  check_preview(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
     if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_2,currValue))) {
       this._changed = true;
-      this.context.headers = currValue;
+      this.context.preview = currValue;
       this._expr_2 = currValue;
     }
   }
-  check_preview(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+  check_acceptTypes(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
     if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_3,currValue))) {
       this._changed = true;
-      this.context.preview = currValue;
+      this.context.acceptTypes = currValue;
       this._expr_3 = currValue;
     }
   }
-  check_acceptTypes(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+  check_styling(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
     if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_4,currValue))) {
       this._changed = true;
-      this.context.acceptTypes = currValue;
+      this.context.styling = currValue;
       this._expr_4 = currValue;
     }
   }
-  check_styling(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+  check_quality(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
     if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_5,currValue))) {
       this._changed = true;
-      this.context.styling = currValue;
+      this.context.quality = currValue;
       this._expr_5 = currValue;
     }
   }
@@ -114,11 +116,18 @@ export class Wrapper_ImageUploadComponent {
       this._expr_6 = currValue;
     }
   }
-  check_dropBoxMessage(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+  check_uploadButtonCaption(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
     if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_7,currValue))) {
       this._changed = true;
-      this.context.dropBoxMessage = currValue;
+      this.context.uploadButtonCaption = currValue;
       this._expr_7 = currValue;
+    }
+  }
+  check_dropBoxMessage(currValue:any,throwOnChange:boolean,forceUpdate:boolean):void {
+    if ((forceUpdate || import3.checkBinding(throwOnChange,this._expr_8,currValue))) {
+      this._changed = true;
+      this.context.dropBoxMessage = currValue;
+      this._expr_8 = currValue;
     }
   }
   ngDoCheck(view:import2.AppView<any>,el:any,throwOnChange:boolean):boolean {
@@ -366,6 +375,44 @@ class View_ImageUploadComponent1 extends import2.AppView<any> {
     return (null as any);
   }
 }
+class View_ImageUploadComponent5 extends import2.AppView<any> {
+  _el_0:any;
+  _text_1:any;
+  _el_2:any;
+  _text_3:any;
+  _text_4:any;
+  /*private*/ _expr_5:any;
+  constructor(viewUtils:import3.ViewUtils,parentView:import2.AppView<any>,parentIndex:number,parentElement:any,declaredViewContainer:import10.ViewContainer) {
+    super(View_ImageUploadComponent5,renderType_ImageUploadComponent,import6.ViewType.EMBEDDED,viewUtils,parentView,parentIndex,parentElement,import7.ChangeDetectorStatus.CheckAlways,declaredViewContainer);
+    this._expr_5 = import1.UNINITIALIZED;
+  }
+  createInternal(rootSelector:string):import8.ComponentRef<any> {
+    this._el_0 = import3.createRenderElement(this.renderer,(null as any),'div',new import3.InlineArray2(2,'style','text-align: center justify; font-size: 18px; color: red '),(null as any));
+    this._text_1 = this.renderer.createText(this._el_0,'',(null as any));
+    this._el_2 = import3.createRenderElement(this.renderer,this._el_0,'div',import3.EMPTY_INLINE_ARRAY,(null as any));
+    this._text_3 = this.renderer.createText(this._el_2,'\n                    ',(null as any));
+    this._text_4 = this.renderer.createText(this._el_0,'\n        		',(null as any));
+    this.init(this._el_0,((<any>this.renderer).directRenderer? (null as any): [
+      this._el_0,
+      this._text_1,
+      this._el_2,
+      this._text_3,
+      this._text_4
+    ]
+    ),(null as any));
+    return (null as any);
+  }
+  detectChangesInternal(throwOnChange:boolean):void {
+    const currVal_5:any = import3.inlineInterpolate(1,'',this.parentView.context.errMsg,'');
+    if (import3.checkBinding(throwOnChange,this._expr_5,currVal_5)) {
+      this.renderer.setText(this._text_1,currVal_5);
+      this._expr_5 = currVal_5;
+    }
+  }
+  visitRootNodesInternal(cb:any,ctx:any):void {
+    cb(this._el_0,ctx);
+  }
+}
 var renderType_ImageUploadComponent:import4.RenderComponentType = import3.createRenderComponentType('',0,import5.ViewEncapsulation.Emulated,styles_ImageUploadComponent,{});
 export class View_ImageUploadComponent0 extends import2.AppView<import0.ImageUploadComponent> {
   _viewQuery_input_0:import21.QueryList<any>;
@@ -446,7 +493,10 @@ export class View_ImageUploadComponent0 extends import2.AppView<import0.ImageUpl
   _text_67:any;
   _text_68:any;
   _text_69:any;
-  _text_70:any;
+  _anchor_70:any;
+  /*private*/ _vc_70:import10.ViewContainer;
+  _TemplateRef_70_5:any;
+  _NgIf_70_6:import12.Wrapper_NgIf;
   _text_71:any;
   _el_72:any;
   _text_73:any;
@@ -459,32 +509,34 @@ export class View_ImageUploadComponent0 extends import2.AppView<import0.ImageUpl
   _text_80:any;
   _text_81:any;
   _text_82:any;
-  /*private*/ _expr_91:any;
-  _map_92:any;
-  _map_93:any;
-  _map_94:any;
+  /*private*/ _expr_94:any;
   /*private*/ _expr_95:any;
-  /*private*/ _expr_96:any;
-  /*private*/ _expr_97:any;
+  _map_96:any;
+  _map_97:any;
+  _map_98:any;
+  /*private*/ _expr_99:any;
+  /*private*/ _expr_100:any;
+  /*private*/ _expr_101:any;
   constructor(viewUtils:import3.ViewUtils,parentView:import2.AppView<any>,parentIndex:number,parentElement:any) {
     super(View_ImageUploadComponent0,renderType_ImageUploadComponent,import6.ViewType.COMPONENT,viewUtils,parentView,parentIndex,parentElement,import7.ChangeDetectorStatus.CheckAlways);
-    this._expr_91 = import1.UNINITIALIZED;
-    this._map_92 = import3.pureProxy1((p0:any):{[key: string]:any} => {
+    this._expr_94 = import1.UNINITIALIZED;
+    this._expr_95 = import1.UNINITIALIZED;
+    this._map_96 = import3.pureProxy1((p0:any):{[key: string]:any} => {
       return {in: p0};
     });
-    this._map_93 = import3.pureProxy2((p0:any,p1:any):{[key: string]:any} => {
+    this._map_97 = import3.pureProxy2((p0:any,p1:any):{[key: string]:any} => {
       return {
         display: p0,
         opacity: p1
       }
       ;
     });
-    this._map_94 = import3.pureProxy1((p0:any):{[key: string]:any} => {
+    this._map_98 = import3.pureProxy1((p0:any):{[key: string]:any} => {
       return {'file-is-over': p0};
     });
-    this._expr_95 = import1.UNINITIALIZED;
-    this._expr_96 = import1.UNINITIALIZED;
-    this._expr_97 = import1.UNINITIALIZED;
+    this._expr_99 = import1.UNINITIALIZED;
+    this._expr_100 = import1.UNINITIALIZED;
+    this._expr_101 = import1.UNINITIALIZED;
   }
   createInternal(rootSelector:string):import8.ComponentRef<any> {
     const parentRenderNode:any = this.renderer.createViewRoot(this.parentElement);
@@ -495,7 +547,7 @@ export class View_ImageUploadComponent0 extends import2.AppView<import0.ImageUpl
     this._text_3 = this.renderer.createText(this._el_0,'\n',(null as any));
     this._text_4 = this.renderer.createText(parentRenderNode,'\n',(null as any));
     this._el_5 = import3.createRenderElement(this.renderer,parentRenderNode,'button',import3.EMPTY_INLINE_ARRAY,(null as any));
-    this._text_6 = this.renderer.createText(this._el_5,'click to upload',(null as any));
+    this._text_6 = this.renderer.createText(this._el_5,'',(null as any));
     this._text_7 = this.renderer.createText(parentRenderNode,'\n	',(null as any));
     this._el_8 = import3.createRenderElement(this.renderer,parentRenderNode,'div',new import3.InlineArray4(4,'class','modal fade','tabindex','-1'),(null as any));
     this._NgClass_8_3 = new import22.Wrapper_NgClass(this.parentView.injectorGet(import19.IterableDiffers,this.parentIndex),this.parentView.injectorGet(import13.KeyValueDiffers,this.parentIndex),new import14.ElementRef(this._el_8),this.renderer);
@@ -565,10 +617,13 @@ export class View_ImageUploadComponent0 extends import2.AppView<import0.ImageUpl
     this._text_66 = this.renderer.createText(this._el_63,'\n								',(null as any));
     this._text_67 = this.renderer.createText(this._el_49,'\n							',(null as any));
     this._text_68 = this.renderer.createText(this._el_47,'\n						',(null as any));
-    this._text_69 = this.renderer.createText(this._el_25,'\n                    ',(null as any));
-    this._text_70 = this.renderer.createText(this._el_23,'\n        		',(null as any));
-    this._text_71 = this.renderer.createText(this._el_12,'\n        		',(null as any));
-    this._el_72 = import3.createRenderElement(this.renderer,this._el_12,'div',new import3.InlineArray2(2,'class','modal-footer'),(null as any));
+    this._text_69 = this.renderer.createText(this._el_25,'\n						',(null as any));
+    this._anchor_70 = this.renderer.createTemplateAnchor(this._el_25,(null as any));
+    this._vc_70 = new import10.ViewContainer(70,25,this,this._anchor_70);
+    this._TemplateRef_70_5 = new import15.TemplateRef_(this,70,this._anchor_70);
+    this._NgIf_70_6 = new import12.Wrapper_NgIf(this._vc_70.vcRef,this._TemplateRef_70_5);
+    this._text_71 = this.renderer.createText(this._el_25,'\n        		',(null as any));
+    this._el_72 = import3.createRenderElement(this.renderer,this._el_25,'div',new import3.InlineArray2(2,'class','modal-footer'),(null as any));
     this._text_73 = this.renderer.createText(this._el_72,'\n          			',(null as any));
     this._el_74 = import3.createRenderElement(this.renderer,this._el_72,'div',new import3.InlineArray2(2,'class','app-modal-footer'),(null as any));
     this._text_75 = this.renderer.createText(this._el_74,'\n      					',(null as any));
@@ -576,9 +631,9 @@ export class View_ImageUploadComponent0 extends import2.AppView<import0.ImageUpl
     this._text_77 = this.renderer.createText(this._el_76,'Close',(null as any));
     this._text_78 = this.renderer.createText(this._el_74,'\n					',(null as any));
     this._text_79 = this.renderer.createText(this._el_72,'\n        		',(null as any));
-    this._text_80 = this.renderer.createText(this._el_12,'\n      		',(null as any));
-    this._text_81 = this.renderer.createText(this._el_10,'\n    	',(null as any));
-    this._text_82 = this.renderer.createText(this._el_8,'\n	',(null as any));
+    this._text_80 = this.renderer.createText(this._el_25,'\n      		',(null as any));
+    this._text_81 = this.renderer.createText(this._el_23,'\n    	',(null as any));
+    this._text_82 = this.renderer.createText(this._el_12,'\n	',(null as any));
     var disposable_0:Function = import3.subscribeToRenderElement(this,this._el_5,new import3.InlineArray2(2,'click',(null as any)),this.eventHandler(this.handleEvent_5));
     var disposable_1:Function = import3.subscribeToRenderElement(this,this._el_27,new import3.InlineArray16(10,'isFileOver',(null as any),'fileDrop',(null as any),'dragover',(null as any),'dragleave',(null as any),'drop',(null as any)),this.eventHandler(this.handleEvent_27));
     this._FileDropDirective_27_4.subscribe(this,this.eventHandler(this.handleEvent_27),true,true);
@@ -658,7 +713,7 @@ export class View_ImageUploadComponent0 extends import2.AppView<import0.ImageUpl
       this._text_67,
       this._text_68,
       this._text_69,
-      this._text_70,
+      this._anchor_70,
       this._text_71,
       this._el_72,
       this._text_73,
@@ -687,6 +742,8 @@ export class View_ImageUploadComponent0 extends import2.AppView<import0.ImageUpl
     if (((token === import16.NgIf) && (43 === requestNodeIndex))) { return this._NgIf_43_6.context; }
     if (((token === import24.NgClass) && ((27 <= requestNodeIndex) && (requestNodeIndex <= 44)))) { return this._NgClass_27_3.context; }
     if (((token === import25.FileDropDirective) && ((27 <= requestNodeIndex) && (requestNodeIndex <= 44)))) { return this._FileDropDirective_27_4.context; }
+    if (((token === import15.TemplateRef) && (70 === requestNodeIndex))) { return this._TemplateRef_70_5; }
+    if (((token === import16.NgIf) && (70 === requestNodeIndex))) { return this._NgIf_70_6.context; }
     if (((token === import24.NgClass) && ((8 <= requestNodeIndex) && (requestNodeIndex <= 82)))) { return this._NgClass_8_3.context; }
     if (((token === import17.NgStyle) && ((8 <= requestNodeIndex) && (requestNodeIndex <= 82)))) { return this._NgStyle_8_4.context; }
     return notFoundResult;
@@ -694,15 +751,15 @@ export class View_ImageUploadComponent0 extends import2.AppView<import0.ImageUpl
   detectChangesInternal(throwOnChange:boolean):void {
     const currVal_8_0_0:any = 'modal fade';
     this._NgClass_8_3.check_klass(currVal_8_0_0,throwOnChange,false);
-    const currVal_8_0_1:any = this._map_92(this.context.visibleAnimate);
+    const currVal_8_0_1:any = this._map_96(this.context.visibleAnimate);
     this._NgClass_8_3.check_ngClass(currVal_8_0_1,throwOnChange,false);
     this._NgClass_8_3.ngDoCheck(this,this._el_8,throwOnChange);
-    const currVal_8_1_0:any = this._map_93((this.context.visible? 'block': 'none'),(this.context.visibleAnimate? 1: 0));
+    const currVal_8_1_0:any = this._map_97((this.context.visible? 'block': 'none'),(this.context.visibleAnimate? 1: 0));
     this._NgStyle_8_4.check_ngStyle(currVal_8_1_0,throwOnChange,false);
     this._NgStyle_8_4.ngDoCheck(this,this._el_8,throwOnChange);
     const currVal_27_0_0:any = 'image-upload';
     this._NgClass_27_3.check_klass(currVal_27_0_0,throwOnChange,false);
-    const currVal_27_0_1:any = this._map_94(this.context.isFileOver);
+    const currVal_27_0_1:any = this._map_98(this.context.isFileOver);
     this._NgClass_27_3.check_ngClass(currVal_27_0_1,throwOnChange,false);
     this._NgClass_27_3.ngDoCheck(this,this._el_27,throwOnChange);
     const currVal_27_1_0:any = this.context.acceptTypes;
@@ -711,34 +768,45 @@ export class View_ImageUploadComponent0 extends import2.AppView<import0.ImageUpl
     const currVal_43_0_0:any = this.context.preview;
     this._NgIf_43_6.check_ngIf(currVal_43_0_0,throwOnChange,false);
     this._NgIf_43_6.ngDoCheck(this,this._anchor_43,throwOnChange);
+    const currVal_70_0_0:any = this.context.errMsgShow;
+    this._NgIf_70_6.check_ngIf(currVal_70_0_0,throwOnChange,false);
+    this._NgIf_70_6.ngDoCheck(this,this._anchor_70,throwOnChange);
     this._vc_43.detectChangesInNestedViews(throwOnChange);
-    const currVal_91:any = import3.inlineInterpolate(1,'',this.context.styling,'');
-    if (import3.checkBinding(throwOnChange,this._expr_91,currVal_91)) {
-      this.renderer.setElementProperty(this._el_5,'className',currVal_91);
-      this._expr_91 = currVal_91;
+    this._vc_70.detectChangesInNestedViews(throwOnChange);
+    const currVal_94:any = import3.inlineInterpolate(1,'',this.context.styling,'');
+    if (import3.checkBinding(throwOnChange,this._expr_94,currVal_94)) {
+      this.renderer.setElementProperty(this._el_5,'className',currVal_94);
+      this._expr_94 = currVal_94;
     }
     const currVal_95:any = import3.inlineInterpolate(1,'',this.context.buttonCaption,'');
     if (import3.checkBinding(throwOnChange,this._expr_95,currVal_95)) {
-      this.renderer.setText(this._text_34,currVal_95);
+      this.renderer.setText(this._text_6,currVal_95);
       this._expr_95 = currVal_95;
     }
-    const currVal_96:any = import3.inlineInterpolate(1,'',this.context.acceptTypes,'');
-    if (import3.checkBinding(throwOnChange,this._expr_96,currVal_96)) {
-      this.renderer.setElementProperty(this._el_36,'accept',currVal_96);
-      this._expr_96 = currVal_96;
+    const currVal_99:any = import3.inlineInterpolate(1,'',this.context.uploadButtonCaption,'');
+    if (import3.checkBinding(throwOnChange,this._expr_99,currVal_99)) {
+      this.renderer.setText(this._text_34,currVal_99);
+      this._expr_99 = currVal_99;
     }
-    const currVal_97:any = import3.inlineInterpolate(1,'',this.context.dropBoxMessage,'');
-    if (import3.checkBinding(throwOnChange,this._expr_97,currVal_97)) {
-      this.renderer.setText(this._text_40,currVal_97);
-      this._expr_97 = currVal_97;
+    const currVal_100:any = import3.inlineInterpolate(1,'',this.context.acceptTypes,'');
+    if (import3.checkBinding(throwOnChange,this._expr_100,currVal_100)) {
+      this.renderer.setElementProperty(this._el_36,'accept',currVal_100);
+      this._expr_100 = currVal_100;
+    }
+    const currVal_101:any = import3.inlineInterpolate(1,'',this.context.dropBoxMessage,'');
+    if (import3.checkBinding(throwOnChange,this._expr_101,currVal_101)) {
+      this.renderer.setText(this._text_40,currVal_101);
+      this._expr_101 = currVal_101;
     }
   }
   destroyInternal():void {
     this._vc_43.destroyNestedViews();
+    this._vc_70.destroyNestedViews();
     this._FileDropDirective_27_4.ngOnDestroy();
   }
   createEmbeddedViewInternal(nodeIndex:number):import2.AppView<any> {
     if ((nodeIndex == 43)) { return new View_ImageUploadComponent1(this.viewUtils,this,43,this._anchor_43,this._vc_43); }
+    if ((nodeIndex == 70)) { return new View_ImageUploadComponent5(this.viewUtils,this,70,this._anchor_70,this._vc_70); }
     return (null as any);
   }
   handleEvent_5(eventName:string,$event:any):boolean {

@@ -6,7 +6,7 @@ Please star a project if you liked it, or create an issue if you have problems w
 ## Installation
  Install npm module:
     
-    `npm install og-builder --save`
+    `npm install og-uploader --save`
 
 
 ## Usage
