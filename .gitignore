@@ -1,1 +1,25 @@
+# Node generated files
 node_modules
+npm-debug.log
+# OS generated files
+Thumbs.db
+.DS_Store
+# Ignored files
+*.js
+*.map
+*.d.ts
+.idea
+.editorconfig
+typings/**
+node_modules
+**/*npm-debug.log.*
+*.js
+*.js.map
+dist
+.vscode
+*.metadata.json
+*.ngfactory.ts
+*.ngsummary.json
+*.ngstyle.ts
+/aot
+
