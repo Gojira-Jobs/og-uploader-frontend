@@ -1,8 +1,6 @@
 <og-uploader  [acceptTypes]="['image/*','text/*','application/*']"
-              [styling]="'btn-danger btn-lg'"
+              
               [quality]="80"
-              [uploadButtonCaption]="'Select Images!'"
               [buttonCaption]="'The button we all wanted!!'"
-              [dropBoxMessage]="'Drop your images here!'"
               (onFileUploadFinish)="imageUploaded($event)"   
 ></og-uploader>
