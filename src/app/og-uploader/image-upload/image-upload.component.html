@@ -32,18 +32,12 @@
 								<div class="drag-box-message">{{dropBoxMessage}}</div>
 							</div>
 
-  							<div *ngIf="preview" class="image-container hr-inline-group">
+  							<div *ngIf="isPending" style="margin: auto" class="image-container hr-inline-group">
 								<div
 								class="image"
-								*ngFor="let file of files"
-								[ngStyle]="{'background-image': 'url('+ file.src +')'}"
+								[ngStyle]="{'background-image': 'url('+rotatingGif+')'}"
 								>
-      								<div *ngIf="file.pending" class="loading-overlay">
-        								<div class="spinningCircle"></div>
-      								</div>
-      								<div *ngIf="!file.pending" class="x-mark" (click)="deleteFile(file)">
-        								<span class="close"></span>
-									</div>
+      							
 								</div>
 							</div>
 						</div><br>

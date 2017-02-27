@@ -15,25 +15,25 @@ class FileHolder {
 export class ImageUploadComponent {
   public visible:boolean=false;
   private visibleAnimate = false;
-  @Input() max: number = 1;
-  url: string="http://6f5fa780.ngrok.io";
-  @Input() headers: Header[];
-  @Input() preview: boolean = true;
+  max: number = 1;
+  url: string="http://97ed60c2.ngrok.io";
+  headers: Header[];
   @Input() acceptTypes : string[];
   @Input() styling: string='btn btn-primary';
   @Input() quality: string='65';
   @ViewChild('input') input;
+  @ViewChild('url') urlField;
   @Output()
-  private isPending: EventEmitter<boolean> = new EventEmitter<boolean>();
+  private isPending: boolean;
   @Output()
   private onFileUploadFinish: EventEmitter<FileHolder> = new EventEmitter<FileHolder>();
-  @Output()
-  private onRemove: EventEmitter<FileHolder> = new EventEmitter<FileHolder>();
   private errMsg: string;
   private errMsgShow: boolean;
-  private files: FileHolder[] = [];
-
+  private files: FileHolder;
+  private loadingImg: string="../../../assets/transfer.gif";
+  private finishImg: string="../../../assets/double.png"
   private fileCounter: number = 0;
+  private rotatingGif: string;
   private pendingFilesCounter: number = 0;
 
   private isFileOver:boolean = false;
@@ -52,61 +52,45 @@ export class ImageUploadComponent {
     if(this.max==1){
       this.input.nativeElement.multiple = false;
     }
+    this.isPending=false;
     this.imageService.setUrl(this.url);
     this.imageService.setQuality(this.quality);
   }
 
   fileChange(files) {
     this.errMsgShow=false;
-    let remainingSlots = this.countRemainingSlots();
-    let filesToUploadNum = files.length > remainingSlots ? remainingSlots : files.length;
-
-    if (this.url && filesToUploadNum != 0) {
-      this.isPending.emit(true);
+    if (this.url) {
+      this.isPending=true;
+      this.rotatingGif=this.loadingImg;
     }
 
-    this.fileCounter += filesToUploadNum;
 
-    this.uploadFiles(files, filesToUploadNum);
-  }
-
-  private uploadFiles(files, filesToUploadNum) {
-    for (let i = 0; i < filesToUploadNum; i++) {
-      let file = files[i];
-
-
-     // let img = document.createElement('img');
-     // img.src = window.URL.createObjectURL(file);
-
-      let reader = new FileReader();
+   let reader = new FileReader();
       reader.addEventListener('load', (event: any) => {
-        let fileHolder: FileHolder = new FileHolder(event.target.result, file);
+        let fileHolder: FileHolder = new FileHolder(event.target.result, files[0]);
 
-        fileHolder.serverResponse = `good boy: ${i}`;
+        fileHolder.serverResponse = `good boy`;
 
         this.uploadSingleFile(fileHolder);
 
-        this.files.push(fileHolder);
+        this.files=fileHolder;
 
       }, false);
 
 
-      reader.readAsDataURL(file);
-    }
+      reader.readAsDataURL(files[0]);
   }
 
   private uploadSingleFile(fileHolder: FileHolder) {
     if (this.url) {
-      this.pendingFilesCounter++;
       fileHolder.pending = true;
 
       this.imageService.postImage(fileHolder.file, this.headers).subscribe(response => {
         fileHolder.serverResponse = response;
         this.onFileUploadFinish.emit(response.InkBlob);
         fileHolder.pending = false;
-        if (--this.pendingFilesCounter == 0) {
-          this.isPending.emit(false);
-        }
+        this.rotatingGif=this.finishImg;
+        setTimeout(() => this.hide(), 1500);
       },err=>{
       this.errMsg=err.err;
       this.errMsgShow=true;
@@ -117,24 +101,8 @@ export class ImageUploadComponent {
     }
   }
 
-  private deleteFile(file: FileHolder): void {
-    let index = this.files.indexOf(file);
-    this.files.splice(index, 1);
-    this.fileCounter--;
-    this.onRemove.emit(file);
-  }
-
   fileOver(isOver) {
     this.isFileOver = isOver;
-  }
-
-  private countRemainingSlots() {
-    return this.max - this.fileCounter;
-  }
-
-
-  get value(): any[] {
-    return this.files;
   }
 
   modal()
@@ -150,16 +118,19 @@ export class ImageUploadComponent {
   public hide(): void {
     this.visibleAnimate = false;
     setTimeout(() => this.visible = false, 300);
-    this.files=[];
-    this.fileCounter=0;
-    this.pendingFilesCounter=0;
+    this.files=null;
+    this.isPending=false;
+    this.urlField.nativeElement.value="";
   }
   
   send(val:string){
     this.errMsgShow=false;
+    this.isPending=true;
     this.imageService.linkupload(val,this.headers).subscribe(res=>
     {
-       this.onFileUploadFinish.emit(res.InkBlob);
+      this.onFileUploadFinish.emit(res.InkBlob);
+      this.rotatingGif=this.finishImg;
+      setTimeout(() => this.hide(), 1500);
     },err=>{
       this.errMsg=err.err;
       this.errMsgShow=true;
