@@ -1,90 +1,85 @@
 import {Component, Input, Output, EventEmitter, ViewChild} from '@angular/core';
 import {ImageService, Header} from "../image.service";
-declare var $;
-class FileHolder {
-  public serverResponse: any;
-  public pending: boolean = false;
 
-  constructor(private src: string, public file: File) {
-  }
+declare var $;
+
+class FileHolder {
+
+    constructor(private src: string, public file: File) {
+    }
 }
 
 @Component({
-  selector: 'og-uploader',
-  template: `<head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-</head>
-<button (click)="modal()" class={{styling}}>{{buttonCaption}}</button>
-	<div class="modal fade" tabindex="-1" [ngClass]="{'in': visibleAnimate}"
-       [ngStyle]="{'display': visible ? 'block' : 'none', 'opacity': visibleAnimate ? 1 : 0}">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<div class="app-modal-header">
-           				<h3>Outgrow Uploader</h3>
-          			</div>
-				</div>
-				<div class="modal-body ">
-           			<div class="app-modal-body ">
-						<div class="image-upload"
-							fileDrop
-							[accept]=acceptTypes
-							(isFileOver)="fileOver($event)"
-							(fileDrop)="fileChange($event)"
-							[ngClass]="{'file-is-over': isFileOver}"
-						>
-  							<div class="file-upload hr-inline-group">
-								<label class="upload-button">
-      								<span>{{uploadButtonCaption}}</span>
-									<input
-										type="file"
-										accept={{acceptTypes}}
-										multiple (change)="fileChange(input.files)"
-										#input>
-    							</label>
-								<div class="drag-box-message">{{dropBoxMessage}}</div>
-							</div>
-
-  							<div *ngIf="preview" class="image-container hr-inline-group">
-								<div
-								class="image"
-								*ngFor="let file of files"
-								[ngStyle]="{'background-image': 'url('+ file.src +')'}"
-								>
-      								<div *ngIf="file.pending" class="loading-overlay">
-        								<div class="spinningCircle"></div>
-      								</div>
-      								<div *ngIf="!file.pending" class="x-mark" (click)="deleteFile(file)">
-        								<span class="close"></span>
-									</div>
-								</div>
-							</div>
-						</div><br>
-						<div class="image-upload" style="height:60px;">
-							<div class="row" style="margin-top:1%">
-								<div class="col-sm-3" style="text-align:center;">
-									<label style="font-size:20px;">Upload from link</label>
-								</div>
-								<div class="col-sm-6">
-									<span><input type="url" class="form-control" #url></span>
-								</div>
-								<div class="col-sm-3">
-									<input type="button" value="Submit" class="btn-danger form-control" (click)="send(url.value)">
-								</div>
-							</div>
-						</div>
-						<div style="text-align: center justify; font-size: 18px; color: red " *ngIf=errMsgShow>{{errMsg}}<div>
+    selector: 'og-uploader',
+    template: `<head>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            </head>
+            <button> (click)="show()" class={{styling}}>{{buttonCaption}}</button>
+                <div class="modal fade" tabindex="-1" [ngClass]="{'in': visibleAnimate}"
+                   [ngStyle]="{'display': visible ? 'block' : 'none', 'opacity': visibleAnimate ? 1 : 0}">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="app-modal-header">
+                                    <h3>Outgrow Uploader</h3>
+                                </div>
+                            </div>
+                            <div class="modal-body ">
+                                <div class="app-modal-body ">
+                                    <div class="image-upload"
+                                        fileDrop
+                                        [accept]=acceptTypes
+                                        (isFileOver)="fileOver($event)"
+                                        (fileDrop)="fileChange($event)"
+                                        [ngClass]="{'file-is-over': isFileOver}"
+                                    >
+                                        <div class="file-upload hr-inline-group">
+                                            <label class="upload-button">
+                                                <span>{{uploadButtonCaption}}</span>
+                                                <input
+                                                    type="file"
+                                                    accept={{acceptTypes}}
+                                                    (change)="fileChange(input.files)"
+                                                    #input
+                                                >
+                                            </label>
+                                            <div class="drag-box-message">{{dropBoxMessage}}</div>
+                                        </div>
+            
+                                        <div *ngIf="isPending" style="margin: auto" class="image-container hr-inline-group">
+                                            <div
+                                            class="image"
+                                            [ngStyle]="{'background-image': 'url('+rotatingGif+')'}"
+                                            >
+                                            
+                                            </div>
+                                        </div>
+                                    </div><br>
+                                    <div class="image-upload" style="height:60px;">
+                                        <div class="row" style="margin-top:1%">
+                                            <div class="col-sm-3 upload">
+                                                <label>Upload from link</label>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <span><input type="url" class="form-control" #url></span>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <input type="button" value="Submit" class="btn-danger form-control" (click)="send(url.value)">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="text-align: center justify; font-size: 18px; color: red " *ngIf=errMsgShow>{{errMsg}}<div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <div class="app-modal-footer">
+                                    <button type="button" class="btn btn-default" (click)="hide()">Close</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-        		</div>
-        		<div class="modal-footer">
-          			<div class="app-modal-footer">
-      					<button type="button" class="btn btn-default" (click)="hide()">Close</button>
-					</div>
-        		</div>
-      		</div>
-    	</div>
-	</div>`,
-  styles: [`.modal-dialog {
+                </div>`,
+    styleUrls: [`.modal-dialog {
   padding-top:8%;
   width: 60% !important;
 }
@@ -100,11 +95,17 @@ class FileHolder {
   background-color: lightslategray;
 }
 
+.modal-footer {
+    padding: 15px;
+    text-align: right;
+    border-top: 1px solid lightslategray;
+}
+
 .image-upload {
   --active-color: #30bf5a;
   position: relative;
   border-radius: 5px;
-  border: #d0d0d0 dotted 2px;
+  border: #d0d0d0 2px;
   font-family: sans-serif;
 }
 
@@ -166,243 +167,105 @@ label.upload-button input[type=file]{
   position: relative;
 }
 
-.x-mark {
-  width: 20px;
-  height: 20px;
+.upload{
   text-align: center;
-  cursor: pointer;
-  border-radius: 2px;
-  float: right;
-  background-color: black;
-  opacity: .7;
-  color: white;
-  margin: 2px;
-}
-
-.close {
-  width: 20px;
-  height: 20px;
-  opacity: .7;
-  position: relative;
-  padding-right: 3px;
-}
-.x-mark:hover .close {
-  opacity: 1;
-}
-.close:before, .close:after {
-  border-radius: 2px;
-  position: absolute;
-  content: '';
-  height: 16px;
-  width: 3px;
-  top: 2px;
-  background-color: #FFFFFF;
-}
-
-.close:before {
-  transform: rotate(45deg);
-}
-
-.close:after {
-  transform: rotate(-45deg);
-}
-
-.loading-overlay {
-  position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0;
-  background-color: black;
-  opacity: .7;
-}
-
-.spinningCircle {
-  height: 30px;
-  width: 30px;
-  margin: auto;
-  position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0;
-  border-radius: 50%;
-  border: 3px solid rgba(255, 255, 255, 0);
-  border-top: 3px solid white;
-  border-right: 3px solid white;
-  -webkit-animation: spinner 2s infinite cubic-bezier(0.085, 0.625, 0.855, 0.360);
-  animation: spinner 2s infinite cubic-bezier(0.085, 0.625, 0.855, 0.360);
-}
-
-@-webkit-keyframes spinner {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes spinner {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-
-  }
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #f5fffa;
+  font-size: 15px;
 }
 `]
 })
 export class ImageUploadComponent {
-  public visible: boolean = false;
-  private visibleAnimate = false;
-  @Input() max: number = 1;
-  url: string = "http://bc0deff6.ngrok.io";
-  @Input() headers: Header[];
-  @Input() preview: boolean = true;
-  @Input() acceptTypes: string[];
-  @Input() styling: string = 'btn btn-primary';
-  @Input() quality: string = '65';
-  @ViewChild('input') input;
-  @Output()
-  private isPending: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output()
-  private onFileUploadFinish: EventEmitter<FileHolder> = new EventEmitter<FileHolder>();
-  @Output()
-  private onRemove: EventEmitter<FileHolder> = new EventEmitter<FileHolder>();
-  private errMsg: string;
-  private errMsgShow: boolean;
-  private files: FileHolder[] = [];
+    public visible: boolean = false;
+    private visibleAnimate = false;
+    url: string = "http://97ed60c2.ngrok.io";
+    headers: Header[];
+    private errMsg: string;
+    private errMsgShow: boolean;
+    private files: FileHolder;
+    private loadingImg: string = "../../../assets/transfer.gif";
+    private finishImg: string = "../../../assets/double.png";
+    private rotatingGif: string;
+    private pendingFilesCounter: number = 0;
+    private isFileOver: boolean = false;
+    private isPending: boolean;
+    private uploadButtonCaption: string = "Select File";
+    private dropBoxMessage: string = "Drop your file here!";
+    @Input()
+    private buttonCaption: string = "Upload";
+    @Input() acceptTypes: string[];
+    @Input() styling: string;
+    @Input() quality: string = '65';
+    @ViewChild('url') urlField;
+    @Output()
+    private onFileUploadFinish: EventEmitter<FileHolder> = new EventEmitter<FileHolder>();
 
-  private fileCounter: number = 0;
-  private pendingFilesCounter: number = 0;
-
-  private isFileOver: boolean = false;
-
-  @Input()
-  private buttonCaption: string = "Select Images";
-  @Input()
-  private uploadButtonCaption: string = "Select Images";
-
-  @Input()
-  private dropBoxMessage: string = "Drop your images here!";
-
-  constructor(private imageService: ImageService) {
-  }
-
-  ngOnInit() {
-    if (this.max == 1) {
-      this.input.nativeElement.multiple = false;
-    }
-    this.imageService.setUrl(this.url);
-    this.imageService.setQuality(this.quality);
-  }
-
-  fileChange(files) {
-    this.errMsgShow = false;
-    let remainingSlots = this.countRemainingSlots();
-    let filesToUploadNum = files.length > remainingSlots ? remainingSlots : files.length;
-
-    if (this.url && filesToUploadNum != 0) {
-      this.isPending.emit(true);
+    constructor(private imageService: ImageService) {
     }
 
-    this.fileCounter += filesToUploadNum;
-
-    this.uploadFiles(files, filesToUploadNum);
-  }
-
-  private uploadFiles(files, filesToUploadNum) {
-    for (let i = 0; i < filesToUploadNum; i++) {
-      let file = files[i];
-
-
-      // let img = document.createElement('img');
-      // img.src = window.URL.createObjectURL(file);
-
-      let reader = new FileReader();
-      reader.addEventListener('load', (event: any) => {
-        let fileHolder: FileHolder = new FileHolder(event.target.result, file);
-
-        fileHolder.serverResponse = `good boy: ${i}`;
-
-        this.uploadSingleFile(fileHolder);
-
-        this.files.push(fileHolder);
-
-      }, false);
-
-
-      reader.readAsDataURL(file);
+    ngOnInit() {
+        this.isPending = false;
+        this.imageService.setUrl(this.url);
+        this.imageService.setQuality(this.quality);
     }
-  }
 
-  private uploadSingleFile(fileHolder: FileHolder) {
-    if (this.url) {
-      this.pendingFilesCounter++;
-      fileHolder.pending = true;
+    fileChange(files) {
+        this.errMsgShow = false;
+        this.isPending = true;
+        this.rotatingGif = this.loadingImg;
+        let reader = new FileReader();
+        reader.addEventListener('load', (event: any) => {
+            let fileHolder: FileHolder = new FileHolder(event.target.result, files[0]);
+            this.uploadFile(fileHolder);
+            this.files = fileHolder;
+        }, false);
+        reader.readAsDataURL(files[0]);
+    }
 
-      this.imageService.postImage(fileHolder.file, this.headers).subscribe(response => {
-        fileHolder.serverResponse = response;
-        this.onFileUploadFinish.emit(response.InkBlob);
-        fileHolder.pending = false;
-        if (--this.pendingFilesCounter == 0) {
-          this.isPending.emit(false);
+    private uploadFile(fileHolder: FileHolder) {
+        if (this.url) {
+            this.imageService.postImage(fileHolder.file, this.headers).subscribe(response => {
+                this.onFileUploadFinish.emit(response.InkBlob);
+                this.rotatingGif = this.finishImg;
+                setTimeout(() => this.hide(), 1500);
+            }, err => {
+                this.errMsg = err.err;
+                this.errMsgShow = true;
+            });
+
+        } else {
+            this.onFileUploadFinish.emit(fileHolder);
         }
-      }, err => {
-        this.errMsg = err.err;
-        this.errMsgShow = true;
-      });
-
-    } else {
-      this.onFileUploadFinish.emit(fileHolder);
     }
-  }
 
-  private deleteFile(file: FileHolder): void {
-    let index = this.files.indexOf(file);
-    this.files.splice(index, 1);
-    this.fileCounter--;
-    this.onRemove.emit(file);
-  }
+    fileOver(isOver) {
+        this.isFileOver = isOver;
+    }
 
-  fileOver(isOver) {
-    this.isFileOver = isOver;
-  }
+    public show(): void {
+        this.visible = true;
+        setTimeout(() => this.visibleAnimate = true);
+    }
 
-  private countRemainingSlots() {
-    return this.max - this.fileCounter;
-  }
+    public hide(): void {
+        this.visibleAnimate = false;
+        setTimeout(() => this.visible = false, 300);
+        this.files = null;
+        this.isPending = false;
+        this.urlField.nativeElement.value = "";
+    }
 
-
-  get value(): any[] {
-    return this.files;
-  }
-
-  modal() {
-    this.show();
-
-  }
-
-  public show(): void {
-    this.visible = true;
-    setTimeout(() => this.visibleAnimate = true);
-  }
-
-  public hide(): void {
-    this.visibleAnimate = false;
-    setTimeout(() => this.visible = false, 300);
-    this.files = [];
-    this.fileCounter = 0;
-    this.pendingFilesCounter = 0;
-  }
-
-  send(val: string) {
-    this.errMsgShow = false;
-    this.imageService.linkupload(val, this.headers).subscribe(res => {
-      this.onFileUploadFinish.emit(res.InkBlob);
-    }, err => {
-      this.errMsg = err.err;
-      this.errMsgShow = true;
-    });
-  }
+    send(val: string) {
+        this.errMsgShow = false;
+        this.isPending = true;
+        this.rotatingGif = this.loadingImg;
+        this.imageService.linkupload(val, this.headers).subscribe(res => {
+            this.onFileUploadFinish.emit(res.InkBlob);
+            this.rotatingGif = this.finishImg;
+            setTimeout(() => this.hide(), 1500);
+        }, err => {
+            this.errMsg = err.err;
+            this.errMsgShow = true;
+        });
+    }
 }
