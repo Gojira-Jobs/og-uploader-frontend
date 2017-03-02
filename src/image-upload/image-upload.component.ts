@@ -1,8 +1,6 @@
 import {Component, Input, Output, EventEmitter, ViewChild} from '@angular/core';
 import {ImageService, Header} from "../image.service";
 
-declare var $;
-
 class FileHolder {
 
     constructor(private src: string, public file: File) {
@@ -183,8 +181,8 @@ export class ImageUploadComponent {
     private errMsg: string;
     private errMsgShow: boolean;
     private files: FileHolder;
-    private loadingImg: string = "../../../assets/transfer.gif";
-    private finishImg: string = "../../../assets/double.png";
+    private loadingImg: string="https://oguploader.s3.amazonaws.com/hqH173fyuvJeCzeautbufB0T.gif";
+    private finishImg: string="https://oguploader.s3.amazonaws.com/uRpawC5i34U74PEXA2Hnuz2b.png";
     private rotatingGif: string;
     private pendingFilesCounter: number = 0;
     private isFileOver: boolean = false;

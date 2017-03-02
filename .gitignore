@@ -22,4 +22,5 @@ dist
 *.ngsummary.json
 *.ngstyle.ts
 /aot
+*.log
 
